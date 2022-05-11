@@ -1,1 +1,24 @@
-hello
+{% extends 'booking_app/base.html' %}
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold"
+        <tr>
+            <td>Rental_Name</td>
+            <td>ID</td>
+            <td>Checkin</td>
+            <td>Checkout</td>
+            <td>Previous reservation, ID</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+            <tr>
+                {% comment %} <td>{{object.name}}</td> {% endcomment %}
+                <td>{{object.rental_id}}</td>
+                <td>{{object.checkin|date}}</td>
+                <td>{{object.checkout|date}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock content %}
