@@ -1,5 +1,5 @@
 {% extends 'booking_app/base.html' %}
-
+{% load custom_filter %}
 {% block content %}
 <table class="table table-borderless">
     <thead class="border-bottom font-weight-bold"
@@ -14,10 +14,16 @@
     <tbody>
         {% for object in object_list %}
             <tr>
-                {% comment %} <td>{{object.name}}</td> {% endcomment %}
-                <td>{{object.rental_id}}</td>
+                <td>{{object.rental_id.name}}</td>
+                <td>{{object.pk}}</td>
                 <td>{{object.checkin|date}}</td>
                 <td>{{object.checkout|date}}</td>
+
+    {% comment %} A custom filter that returns previous reservation id 
+                  from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
+
+                <td>{{object|previous_res_id}}</td>
+                
             </tr>
         {% endfor %}
     </tbody>
