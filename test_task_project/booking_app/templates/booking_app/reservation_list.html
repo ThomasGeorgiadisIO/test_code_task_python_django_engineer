@@ -1,30 +1,27 @@
 {% extends 'booking_app/base.html' %}
 {% load custom_filter %}
 {% block content %}
-<table class="table table-borderless">
-    <thead class="border-bottom font-weight-bold"
-        <tr>
-            <td>Rental_Name</td>
-            <td>ID</td>
-            <td>Checkin</td>
-            <td>Checkout</td>
-            <td>Previous reservation, ID</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for object in object_list %}
+    <table class="table table-borderless">
+        <thead class="border-bottom font-weight-bold"
             <tr>
-                <td>{{object.rental_id.name}}</td>
-                <td>{{object.pk}}</td>
-                <td>{{object.checkin|date}}</td>
-                <td>{{object.checkout|date}}</td>
-
-    {% comment %} A custom filter that returns previous reservation id 
-                  from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
-
-                <td>{{object|previous_res_id}}</td>
-                
+                <td>Rental_Name</td>
+                <td>ID</td>
+                <td>Checkin</td>
+                <td>Checkout</td>
+                <td>Previous reservation, ID</td>
             </tr>
-        {% endfor %}
-    </tbody>
-{% endblock content %}
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.rental_id.name }}</td>
+                    <td>{{ object.pk }}</td>
+                    <td>{{ object.checkin|date }}</td>
+                    <td>{{ object.checkout|date }}</td>
+                    {% comment %} A custom filter that returns previous reservation id 
+                    from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
+                    <td>{{ object|previous_res_id }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endblock content %}

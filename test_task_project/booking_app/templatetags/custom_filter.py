@@ -4,23 +4,14 @@ import itertools
 
 register = template.Library()
 
+
 @register.filter
 def previous_res_id(reservation):
 
-    # A list of reservations of the rental with given reservation
-
-    reservation_list = Reservation.objects.filter(rental_id=reservation.rental_id).order_by('checkin')
-
-    # Pair current reservation with the previous
-
-    def pair(iterable):
-        previous_res, current_res = itertools.tee(iterable)
-        next(current_res, None)
-        return zip(previous_res, current_res)
-
-    # Locate previous reservation of the given reservation
-
-    for previous_res, current_res in pair(reservation_list):
-        if current_res == reservation:
-            return previous_res.pk
-
+    # A list of reservations of the rental with given reservation ordered by checkin date
+    reservation_list = list(Reservation.objects.filter(
+        rental_id=reservation.rental_id).order_by('checkin'))
+    current_res_index = reservation_list.index(reservation)
+    # If current reservation has a previous one is located in the previous index
+    # except for the first reservation of the list
+    return "--" if current_res_index == 0 else reservation_list[current_res_index-1].pk
