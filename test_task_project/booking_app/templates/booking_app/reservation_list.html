@@ -16,7 +16,7 @@
             from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
             {% for object in object_list|previous_reservation_pk_filter %}
                 <tr>
-                    <td>{{ object.rental_id.name }}</td>
+                    <td>{{ object.rental.name }}</td>
                     <td>{{ object.pk }}</td>
                     <td>{{ object.checkin|date }}</td>
                     <td>{{ object.checkout|date }}</td>
