@@ -9,6 +9,6 @@ class Rental(models.Model):
 
 
 class Reservation(models.Model):
-    rental_id = models.ForeignKey(to=Rental, on_delete=models.CASCADE)
+    rental = models.ForeignKey(to=Rental, on_delete=models.CASCADE)
     checkin = models.DateField()
     checkout = models.DateField()
