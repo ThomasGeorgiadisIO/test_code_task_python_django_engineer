@@ -12,15 +12,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for object in object_list %}
+            {% comment %} A custom filter that returns a list of modified objects with previous reservation id
+            from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
+            {% for object in object_list|previous_reservation_pk_filter %}
                 <tr>
                     <td>{{ object.rental_id.name }}</td>
                     <td>{{ object.pk }}</td>
                     <td>{{ object.checkin|date }}</td>
                     <td>{{ object.checkout|date }}</td>
-                    {% comment %} A custom filter that returns previous reservation id 
-                    from a given reservation object -- templatetags/custom_filter.py  {% endcomment %}
-                    <td>{{ object|previous_res_id }}</td>
+                    <td>{{ object.previous_reservation_pk }}</td>
                 </tr>
             {% endfor %}
         </tbody>

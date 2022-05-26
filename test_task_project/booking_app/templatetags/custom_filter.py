@@ -1,17 +1,15 @@
 from django import template
-from ..models import Reservation
-
 
 register = template.Library()
 
+
 class ReservationFilter():
     @register.filter
-    def previous_res_id(reservation):
-
-        # A list of reservations of the rental with given reservation ordered by checkin date
-        reservation_list = list(Reservation.objects.filter(
-            rental_id=reservation.rental_id).order_by('checkin'))
-        current_res_index = reservation_list.index(reservation)
-        # If current reservation has a previous one is located in the previous index
-        # except for the first reservation of the list
-        return "--" if current_res_index == 0 else reservation_list[current_res_index-1].pk
+    def previous_reservation_pk_filter(object_list):
+        for idx, object in enumerate(object_list):
+            if idx == 0 or object_list[idx-1].rental_id != object.rental_id:
+                object.previous_reservation_pk = "--"
+                continue
+            if object_list[idx-1].rental_id == object.rental_id:
+                object.previous_reservation_pk = object_list[idx-1].pk
+        return object_list
