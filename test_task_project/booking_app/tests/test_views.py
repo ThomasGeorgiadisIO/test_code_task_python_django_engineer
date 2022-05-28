@@ -44,3 +44,13 @@ class TestReservationListView(TestCase):
         reservation_with_rental2_list = response.context['object_list'][2:]
         self.assertTrue(reservation_with_rental1_list[0].checkin < reservation_with_rental1_list[1].checkin)
         self.assertTrue(reservation_with_rental2_list[0].checkin < reservation_with_rental2_list[1].checkin)
+
+    def test_view_queryset_annotation(self):
+        '''test if queryset annotation works'''
+        response = self.client.get(reverse('reservation_list'))
+        # for reservation1 without previous reservations for rental1
+        reservation1 = response.context['object_list'][0]
+        self.assertEqual(reservation1.previous_reservation_id, None)
+        # for reservation2 with previous reservation for rental1
+        reservation2 = response.context['object_list'][1]
+        self.assertEqual(reservation2.previous_reservation_id, reservation1.pk)
