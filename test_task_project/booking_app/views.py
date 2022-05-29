@@ -17,7 +17,7 @@ class ReservationList(ListView):
         #  slices the pk of the first result, which is the reservation with prior and closest date
         previous_reservation_query = Reservation.objects.filter(rental=OuterRef(    
             "rental"), checkin__lt=OuterRef("checkin")).order_by("-checkin").values("pk")[:1]
-        return Reservation.objects.order_by('rental', 'checkin').annotate(previous_reservation_id=Subquery(previous_reservation_query))
+        return Reservation.objects.prefetch_related('rental').order_by('rental', 'checkin').annotate(previous_reservation_id=Subquery(previous_reservation_query))
 
     # def get_context_data(self, **kwargs):
     #     context=super(ReservationList,self).get_context_data(**kwargs)
