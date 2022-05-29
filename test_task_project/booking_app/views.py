@@ -1,6 +1,8 @@
 from django.views.generic import ListView
 from .models import Reservation
 from django.db.models import OuterRef, Subquery
+from django.template import RequestContext
+from django.http import request
 
 
 class ReservationList(ListView):
@@ -16,3 +18,9 @@ class ReservationList(ListView):
         previous_reservation_query = Reservation.objects.filter(rental=OuterRef(    
             "rental"), checkin__lt=OuterRef("checkin")).order_by("-checkin").values("pk")[:1]
         return Reservation.objects.order_by('rental', 'checkin').annotate(previous_reservation_id=Subquery(previous_reservation_query))
+
+    # def get_context_data(self, **kwargs):
+    #     context=super(ReservationList,self).get_context_data(**kwargs)
+    #     context['query_info']=RequestContext(request)
+    #     print(context)
+    #     return 

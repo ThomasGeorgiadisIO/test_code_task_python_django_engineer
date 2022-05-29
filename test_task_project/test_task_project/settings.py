@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'booking_app',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'test_task_project.urls'
@@ -81,7 +84,7 @@ DATABASES = {
     }
 }
 
-
+INTERNAL_IPS = ['127.0.0.1', ]
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -122,3 +125,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+def show_toolbar(request):
+    return True
+    
+DEBUG_TOOLBAR_CONFIG = {
+'INTERCEPT_REDIRECTS': False,
+"SHOW_TOOLBAR_CALLBACK": show_toolbar,
+'INSERT_BEFORE': '</head>',
+'INTERCEPT_REDIRECTS': False,
+'RENDER_PANELS': True,
+}
